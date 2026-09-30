@@ -110,6 +110,31 @@
       pointer-events: none;
       z-index: 1;
     }
+
+    /* Mobile swipe navigation */
+    .stage-perspective {
+      touch-action: pan-y;
+    }
+
+    .swipe-hint {
+      display: none;
+    }
+
+    @media (max-width: 640px) {
+      .swipe-hint {
+        display: block;
+        position: absolute;
+        bottom: -28px;
+        left: 50%;
+        transform: translateX(-50%);
+        white-space: nowrap;
+        color: rgba(252, 246, 186, 0.75);
+        font-family: 'Montserrat', sans-serif;
+        font-size: 9px;
+        letter-spacing: 0.08em;
+        pointer-events: none;
+      }
+    }
   </style>
 </head>
 <body class="bg-[#0b120e] text-[#2c2c2c] antialiased min-h-screen flex flex-col items-center justify-between font-body-serif relative overflow-x-hidden selection:bg-[#c5a059] selection:text-white">
@@ -130,6 +155,7 @@
   <main class="w-full max-w-md my-auto p-4 flex-1 flex flex-col justify-center items-center z-10">
     
     <div class="stage-perspective w-full h-[630px] relative max-w-[390px] mx-auto select-none">
+      <div class="swipe-hint">← SWIPE TO TURN PAGES →</div>
       
       <div id="bookContainer" class="book-container w-full h-full relative">
 
@@ -429,7 +455,7 @@
 
   </main>
 
-  WhatsApp Share Footer
+  
   <footer id="adminShareFooter" class="w-full max-w-md bg-[#142019] border-t border-[#c5a059]/40 p-3 flex gap-2 justify-between items-center text-xs font-sans-ui z-40 shadow-2xl">
     <button onclick="shareViaWhatsApp()" class="flex-1 bg-[#25D366] text-white py-2.5 px-3 rounded-lg font-semibold flex items-center justify-center gap-2 shadow-lg hover:opacity-95">
       <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-1.11 4.05 4.148-1.088z"/></svg>
@@ -538,6 +564,56 @@
     document.addEventListener('mouseleave', () => {
       bookContainer.style.transform = `rotateY(0deg) rotateX(0deg)`;
     });
+
+
+    // Touch swipe navigation
+    let touchStartX = 0;
+    let touchStartY = 0;
+    let touchStartTime = 0;
+    let swipeHandled = false;
+
+    const swipeArea = document.querySelector('.stage-perspective');
+
+    swipeArea.addEventListener('touchstart', (e) => {
+      if (!e.touches || e.touches.length !== 1) return;
+
+      const touch = e.touches[0];
+      touchStartX = touch.clientX;
+      touchStartY = touch.clientY;
+      touchStartTime = Date.now();
+      swipeHandled = false;
+    }, { passive: true });
+
+    swipeArea.addEventListener('touchend', (e) => {
+      if (swipeHandled || !e.changedTouches || e.changedTouches.length !== 1) return;
+
+      const touch = e.changedTouches[0];
+      const deltaX = touch.clientX - touchStartX;
+      const deltaY = touch.clientY - touchStartY;
+      const duration = Date.now() - touchStartTime;
+
+      // Ignore taps, vertical scrolling gestures, and very slow movements.
+      const minSwipeDistance = 55;
+      const maxVerticalDistance = 90;
+      const maxSwipeDuration = 800;
+
+      if (
+        duration <= maxSwipeDuration &&
+        Math.abs(deltaX) >= minSwipeDistance &&
+        Math.abs(deltaX) > Math.abs(deltaY) * 1.25 &&
+        Math.abs(deltaY) <= maxVerticalDistance
+      ) {
+        swipeHandled = true;
+
+        if (deltaX < 0) {
+          // Swipe left = next page
+          flipNext();
+        } else {
+          // Swipe right = previous page
+          flipPrev();
+        }
+      }
+    }, { passive: true });
 
     // Guest Mode:
     // Admin mode = normal URL (no ?to= or ?guest= parameter)
