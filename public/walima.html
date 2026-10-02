@@ -442,34 +442,15 @@
                   </h1>
                 </div>
 
-                <!-- EDITABLE GUEST NAME & SHARABLE BUTTONS -->
-                <div class="pt-1.5 pb-1 w-full max-w-[94%] sm:max-w-[92%] mx-auto bg-white/90 p-2 sm:p-2.5 rounded-xl border border-[#c5a059]/40 shadow-xs">
-                  <label for="guestNameInput" class="text-[8.5px] sm:text-[9.5px] font-sans-ui text-[#8c6d28] uppercase font-bold tracking-wider block mb-0.5">
-                    INVITATION FOR RESPECTED GUEST:
-                  </label>
-                  
-                  <div class="space-y-1.5">
-                    <input 
-                      type="text" 
-                      id="guestNameInput" 
-                      value="Respected Guest & Family" 
-                      placeholder="Type Guest Name..." 
-                      class="w-full text-center font-script text-xl sm:text-2xl text-[#142019] font-bold bg-white border-b-2 border-[#c5a059] px-2 py-0.5 rounded shadow-inner focus:outline-none focus:ring-2 focus:ring-[#c5a059]/50 transition"
-                    />
-
-                    <!-- Sharable Action Buttons -->
-                    <div class="grid grid-cols-2 gap-1.5 pt-0.5">
-                      <button onclick="shareWhatsApp()" class="w-full bg-[#25D366] hover:bg-[#1ebd59] text-white text-[9.5px] sm:text-[10.5px] font-sans-ui font-semibold py-1.5 px-1 rounded-lg flex items-center justify-center gap-1 shadow transition">
-                        <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
-                        Share WhatsApp
-                      </button>
-
-                      <button onclick="copyPersonalLink()" class="w-full bg-[#8c6d28] hover:bg-[#6e541d] text-white text-[9.5px] sm:text-[10.5px] font-sans-ui font-semibold py-1.5 px-1 rounded-lg flex items-center justify-center gap-1 shadow transition">
-                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/></svg>
-                        Copy Link 🔗
-                      </button>
-                    </div>
-                  </div>
+                <!-- GUEST DISPLAY BOX (EXACTLY LIKE NOOR'S CARD) -->
+                <div class="pt-1.5 pb-1 w-full max-w-[94%] sm:max-w-[90%] mx-auto bg-white/90 p-2 sm:p-2.5 rounded-xl border border-[#c5a059]/40 shadow-xs text-center">
+                  <span class="text-[8.5px] sm:text-[9.5px] font-sans-ui text-[#8c6d28] uppercase font-bold tracking-wider block mb-0.5">To:</span>
+                  <p id="guestDisplay" class="font-script text-2xl sm:text-3xl text-[#142019] font-bold border-b border-[#c5a059]/30 pb-0.5 min-h-[30px]">
+                    Respected Guest & Family
+                  </p>
+                  <button id="editGuestButton" onclick="openPersonalizeModal()" class="text-[9.5px] sm:text-[10px] text-[#8c6d28] hover:underline font-sans-ui mt-1 flex items-center justify-center gap-1 mx-auto font-semibold">
+                    ✏️ Edit Guest Name for Sharing
+                  </button>
                 </div>
 
               </div>
@@ -489,6 +470,32 @@
       </div>
     </div>
   </main>
+
+  <!-- PERSONALIZE GUEST NAME MODAL (HOST/ADMIN USE ONLY) -->
+  <div id="personalizeModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 z-50 hidden">
+    <div class="bg-white border-2 border-[#c5a059] rounded-2xl max-w-sm w-full p-5 space-y-4 shadow-2xl text-center">
+      <h3 class="font-script text-3xl text-[#142019] font-bold">Personalize Invitation</h3>
+      <p class="text-xs font-sans-ui text-[#555]">
+        Enter your guest's name below to generate a customized invitation link for WhatsApp sharing:
+      </p>
+      <input type="text" id="guestNameInput" value="Respected Guest & Family" placeholder="e.g. Respected Uncle & Family" class="w-full p-2.5 border border-[#c5a059] rounded-lg font-sans-ui text-sm text-center focus:outline-none focus:ring-2 focus:ring-[#c5a059]">
+      
+      <div class="grid grid-cols-2 gap-2 pt-1">
+        <button onclick="shareWhatsApp()" class="w-full bg-[#25D366] hover:bg-[#1ebd59] text-white text-xs font-sans-ui font-semibold py-2.5 px-2 rounded-lg flex items-center justify-center gap-1.5 shadow transition">
+          <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
+          Share WhatsApp
+        </button>
+        <button onclick="copyPersonalLink()" class="w-full bg-[#8c6d28] hover:bg-[#6e541d] text-white text-xs font-sans-ui font-semibold py-2.5 px-2 rounded-lg flex items-center justify-center gap-1.5 shadow transition">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/></svg>
+          Copy Link 🔗
+        </button>
+      </div>
+
+      <div class="flex gap-2 border-t border-gray-100 pt-3">
+        <button onclick="closePersonalizeModal()" class="w-full py-2 border border-gray-300 rounded-lg text-xs font-sans-ui font-semibold text-gray-700 hover:bg-gray-50">Done / Close</button>
+      </div>
+    </div>
+  </div>
 
   <!-- Notification Toast -->
   <div id="toast" class="fixed top-16 left-1/2 transform -translate-x-1/2 bg-[#142019] text-[#fcf6ba] border border-[#c5a059] px-4 py-2 rounded-full text-xs font-sans-ui shadow-2xl transition-opacity duration-300 opacity-0 pointer-events-none z-50 flex items-center gap-2">
@@ -548,14 +555,34 @@
       }
     }
 
-    // Read URL Param "to" for Guest Name
+    // URL Personalization Logic (Exact same behavior as Noor's invitation)
+    // Main URL = Host Mode (shows "Edit Guest Name for Sharing" button)
+    // Shared URL (?to=GuestName) = Guest Mode (displays personalized name & hides edit button)
     window.addEventListener('DOMContentLoaded', () => {
-      const params = new URLSearchParams(window.location.search);
-      const toName = params.get('to');
-      if (toName) {
-        document.getElementById('guestNameInput').value = decodeURIComponent(toName);
+      const urlParams = new URLSearchParams(window.location.search);
+      const guestParam = urlParams.get('to') || urlParams.get('guest');
+
+      if (guestParam && guestParam.trim()) {
+        const guestName = guestParam.trim();
+        document.getElementById('guestDisplay').innerText = guestName;
+        document.getElementById('guestNameInput').value = guestName;
+
+        // Hide edit button for guests who open the shared link
+        const editGuestButton = document.getElementById('editGuestButton');
+        if (editGuestButton) {
+          editGuestButton.style.display = 'none';
+        }
       }
     });
+
+    function openPersonalizeModal() {
+      document.getElementById('personalizeModal').classList.remove('hidden');
+      document.getElementById('guestNameInput').focus();
+    }
+
+    function closePersonalizeModal() {
+      document.getElementById('personalizeModal').classList.add('hidden');
+    }
 
     function getSharableUrl() {
       const guestName = document.getElementById('guestNameInput').value.trim();
@@ -568,18 +595,25 @@
 
     function copyPersonalLink() {
       const sharableUrl = getSharableUrl();
+      const guestName = document.getElementById('guestNameInput').value.trim();
+      if (guestName) {
+        document.getElementById('guestDisplay').innerText = guestName;
+      }
       navigator.clipboard.writeText(sharableUrl).then(() => {
         showToast("Personalized invitation link copied! 🔗");
       }).catch(() => {
         showToast("Could not copy link automatically");
       });
+      closePersonalizeModal();
     }
 
     function shareWhatsApp() {
       const guestName = document.getElementById('guestNameInput').value.trim() || 'Respected Guest';
+      document.getElementById('guestDisplay').innerText = guestName;
       const sharableUrl = getSharableUrl();
       const text = encodeURIComponent(`✨ *Dawat-e-Walima Invitation* ✨\n\nDear *${guestName}*,\n\nYou are cordially invited to the Walima of *Amzad Rehman* & *Romana Khan*\n\n📅 Date: Sunday, 25th October 2026\n⏰ Dinner Time: 8:00 PM\n📍 Venue: Kaka Palace Farm House, Nistoli Road, Ghaziabad\n\nOpen your personalized card here:\n` + sharableUrl);
       window.open(`https://api.whatsapp.com/send?text=${text}`, '_blank');
+      closePersonalizeModal();
     }
 
     // Golden Sparkles Particle Canvas
