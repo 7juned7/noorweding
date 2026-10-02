@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Walima Invitation | Amzad Rehman & Romana Khan</title>
+  <!-- Tailwind CSS -->
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cinzel+Decorative:wght@400;700;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Great+Vibes&family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
+  
+  <style>
+    .font-quran { font-family: 'Amiri', serif; }
+    .font-script { font-family: 'Great Vibes', cursive; }
+    .font-serif-title { font-family: 'Cinzel Decorative', serif; }
+    .font-body-serif { font-family: 'Cormorant Garamond', serif; }
+    .font-sans-ui { font-family: 'Montserrat', sans-serif; }
+    .font-playfair { font-family: 'Playfair Display', serif; }
+
+    /* Metallic Gold Shimmer Text */
+    .gold-shimmer-text {
+      background: linear-gradient(120deg, #594519 0%, #8c6d28 25%, #d4af37 40%, #aa771c 60%, #8c6d28 80%, #594519 100%);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: shine 4s linear infinite;
+    }
+
+    @keyframes shine {
+      to { background-position: 200% center; }
+    }
+
+    /* Floating Islamic Lantern Swing */
+    @keyframes swing {
+      0%, 100% { transform: rotate(-4deg); }
+      50% { transform: rotate(4deg); }
+    }
+    .animate-swing {
+      transform-origin: top center;
+      animation: swing 4.2s ease-in-out infinite;
+    }
+
+    .animate-swing-delay {
+      transform-origin: top center;
+      animation: swing 3.6s ease-in-out infinite 0.7s;
+    }
+
+    /* Soft Glow pulse */
+    @keyframes pulseGlow {
+      0%, 100% { opacity: 0.65; transform: scale(1); }
+      50% { opacity: 0.95; transform: scale(1.08); }
+    }
+    .animate-glow {
+      animation: pulseGlow 3s ease-in-out infinite;
+    }
+
+    /* Bright White Luxury Parchment Canvas */
+    .bg-white-luxury {
+      background-color: #ffffff;
+      background-image: 
+        radial-gradient(circle at 50% 0%, rgba(212, 175, 55, 0.06) 0%, transparent 60%),
+        radial-gradient(#d4af37 0.5px, transparent 0.5px), 
+        radial-gradient(#d4af37 0.5px, #ffffff 0.5px);
+      background-size: 100% 100%, 28px 28px, 28px 28px;
+      background-position: 0 0, 0 0, 14px 14px;
+    }
+
+    /* 3D Stage & Card Flip Engine */
+    .stage-perspective {
+      perspective: 1800px;
+      perspective-origin: 50% 50%;
+      touch-action: pan-y;
+    }
+
+    .book-container {
+      transform-style: preserve-3d;
+      transition: transform 0.4s ease-out;
+    }
+
+    .flip-card-page {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      transform-style: preserve-3d;
+      transform-origin: left center;
+      transition: transform 0.85s cubic-bezier(0.645, 0.045, 0.355, 1);
+      backface-visibility: hidden;
+      border-radius: 1.25rem;
+    }
+
+    .flip-card-page.flipped {
+      transform: rotateY(-180deg);
+    }
+
+    .card-shadow {
+      box-shadow: 
+        0 16px 36px -6px rgba(0, 0, 0, 0.35),
+        0 0 25px rgba(212, 175, 55, 0.25),
+        inset 0 0 40px rgba(212, 175, 55, 0.05);
+    }
+
+    /* Floating particle canvas */
+    #particleCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* Pointed Islamic Arch Outline */
+    .islamic-arch-inner {
+      border-top-left-radius: 180px 220px;
+      border-top-right-radius: 180px 220px;
+    }
+
+    /* Responsive Swipe Hint for Mobile */
+    .swipe-hint {
+      display: none;
+    }
+    @media (max-width: 640px) {
+      .swipe-hint {
+        display: block;
+        position: absolute;
+        bottom: -24px;
+        left: 50%;
+        transform: translateX(-50%);
+        white-space: nowrap;
+        color: rgba(252, 246, 186, 0.85);
+        font-family: 'Montserrat', sans-serif;
+        font-size: 10px;
+        letter-spacing: 0.08em;
+        pointer-events: none;
+      }
+    }
+  </style>
+</head>
+<body class="bg-[#0b120e] text-[#2c2c2c] antialiased min-h-screen flex flex-col items-center justify-center font-body-serif relative overflow-x-hidden selection:bg-[#c5a059] selection:text-white p-2 sm:p-4">
+
+  <!-- Floating Golden Sparkle Particles Canvas -->
+  <canvas id="particleCanvas"></canvas>
+
+  <!-- Floating Circular Music Button (Top Right) -->
+  <button id="bgMusicBtn" onclick="toggleAudio()" aria-label="Toggle Background Music" class="fixed top-3 right-3 sm:top-5 sm:right-5 z-50 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-[#142019] text-[#e6ca65] border-2 border-[#c5a059] shadow-lg flex items-center justify-center hover:scale-110 active:scale-95 transition-all">
+    <svg id="musicIcon" class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12 0c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"/>
+    </svg>
+  </button>
+
+  <!-- Main 3D Flip Stage -->
+  <main class="w-full max-w-[410px] my-auto flex-1 flex flex-col justify-center items-center z-10 px-1">
+    
+    <div class="stage-perspective w-full h-[640px] max-h-[90vh] min-h-[540px] relative max-w-[390px] mx-auto select-none">
+      <div class="swipe-hint">← SWIPE TO TURN PAGES →</div>
+      
+      <div id="bookContainer" class="book-container w-full h-full relative">
+
+        <!-- ==================== PAGE 3 (RSVP, WBCF & DIRECTIONS) ==================== -->
+        <div id="p3" class="flip-card-page z-10">
+          <div class="w-full h-full bg-white-luxury border-[4px] border-[#c5a059] rounded-2xl p-3 sm:p-4 flex flex-col justify-between items-center text-center card-shadow relative overflow-hidden">
+            
+            <!-- Inner Border Line -->
+            <div class="absolute inset-2 border border-[#c5a059]/40 rounded-xl pointer-events-none"></div>
+
+            <!-- Page Header -->
+            <div class="w-full pt-1 space-y-0.5 z-10">
+              <span class="text-[9px] sm:text-[10px] font-sans-ui tracking-[0.22em] text-[#8c6d28] uppercase font-bold border-b border-[#c5a059]/60 pb-0.5">RSVP & VENUE LOCATION</span>
+              <h2 class="font-script text-2xl sm:text-3xl text-[#142019] font-bold mt-0.5 text-[#8c6d28]">Dawat-e-Walima</h2>
+            </div>
+
+            <!-- Content Container -->
+            <div class="w-full space-y-2.5 my-auto z-10">
+
+              <!-- Venue Details & Directions -->
+              <div class="bg-white rounded-xl p-2.5 sm:p-3 border border-[#c5a059] shadow-md space-y-1.5 text-left">
+                <div class="flex items-center justify-between border-b border-gray-200 pb-1">
+                  <span class="text-[11px] sm:text-xs font-sans-ui font-bold text-[#142019] flex items-center gap-1">
+                    📍 Venue Address
+                  </span>
+                  <a href="https://maps.google.com/?q=Kaka+Palace+Farm+House+Nistoli+Road+Ghaziabad" target="_blank" class="text-[9.5px] sm:text-[10px] font-sans-ui font-bold text-white bg-[#8c6d28] hover:bg-[#6e541d] px-2.5 py-0.5 rounded-full shadow transition flex items-center gap-1">
+                    Google Maps ↗
+                  </a>
+                </div>
+                <div>
+                  <p class="text-xs font-bold text-[#142019] font-sans-ui">Kaka Palace Farm House</p>
+                  <p class="text-[10px] sm:text-[11px] text-[#444] font-sans-ui leading-tight mt-0.5">
+                    Nistoli Road, Ghaziabad,<br>Uttar Pradesh 201102
+                  </p>
+                </div>
+              </div>
+
+              <!-- RSVP & WBCF Grid -->
+              <div class="grid grid-cols-2 gap-2 text-left">
+                <!-- RSVP Box -->
+                <div class="bg-white p-2 sm:p-2.5 rounded-xl border border-[#c5a059]/50 shadow-sm flex flex-col justify-between">
+                  <div>
+                    <span class="text-[9.5px] sm:text-[10px] font-sans-ui font-bold text-[#8c6d28] uppercase block border-b border-[#c5a059]/30 pb-0.5 mb-1">
+                      R.S.V.P :
+                    </span>
+                    <ul class="text-[9.5px] sm:text-[10px] text-[#2c2c2c] space-y-0.5 font-sans-ui font-semibold leading-tight">
+                      <li>• Zafeer Alam</li>
+                      <li>• Jahangeer Alam</li>
+                      <li>• Abid Hussain</li>
+                      <li>• Noushad</li>
+                      <li>• Zeeshan ul Huq</li>
+                      <li>• Tarique Rehman</li>
+                      <li>• Arbaz Rahman</li>
+                    </ul>
+                  </div>
+                </div>
+
+                <!-- WBCF Box -->
+                <div class="bg-white p-2 sm:p-2.5 rounded-xl border border-[#c5a059]/50 shadow-sm flex flex-col justify-between">
+                  <div>
+                    <span class="text-[9.5px] sm:text-[10px] font-sans-ui font-bold text-[#8c6d28] uppercase block border-b border-[#c5a059]/30 pb-0.5 mb-1">
+                      W.B.C.F. :
+                    </span>
+                    <p class="font-script text-lg sm:text-xl text-[#142019] leading-snug pt-1 font-bold">
+                      All Relatives<br>& Friends
+                    </p>
+                  </div>
+                  <div class="mt-2 pt-1 border-t border-gray-100 text-center">
+                    <span class="text-[8.5px] sm:text-[9px] font-sans-ui text-[#777]">Warmest Regards</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Add to Calendar Button -->
+              <div class="pt-0.5">
+                <button onclick="addToCalendar()" class="w-full bg-[#142019] hover:bg-[#25382c] text-[#fcf6ba] text-[10.5px] sm:text-[11px] font-sans-ui font-semibold py-2 px-2 rounded-lg border border-[#c5a059] flex items-center justify-center gap-1.5 shadow transition">
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                  Save Event to Calendar
+                </button>
+              </div>
+
+            </div>
+
+            <!-- Page Footer Controls -->
+            <div class="w-full flex justify-start items-center border-t border-[#c5a059]/40 pt-1.5 z-10">
+              <button onclick="flipPrev()" class="text-xs font-sans-ui font-bold text-[#8c6d28] hover:text-[#594519] flex items-center gap-1 px-3 py-1 bg-[#f8f5ee] border border-[#c5a059]/50 rounded-full shadow-xs transition">
+                ◄ Prev
+              </button>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- ==================== PAGE 2 (BRIDE, GROOM, PARENTS, DATE & TIME) ==================== -->
+        <div id="p2" class="flip-card-page z-20">
+          <div class="w-full h-full bg-white-luxury border-[4px] border-[#c5a059] rounded-2xl p-3 sm:p-4 flex flex-col justify-between items-center text-center card-shadow relative overflow-hidden">
+            
+            <!-- Inner Arch Background Graphic -->
+            <div class="absolute inset-2 border border-[#c5a059]/40 rounded-xl pointer-events-none"></div>
+
+            <!-- Top Quran Verse -->
+            <div class="w-full pt-1 space-y-1 z-10">
+              <div class="font-quran text-xl sm:text-2xl text-[#3d321b] font-bold tracking-wide">
+                بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ
+              </div>
+              <p class="font-playfair italic text-[10.5px] sm:text-[11px] text-[#4a3b1d] font-semibold leading-tight px-1">
+                "And We created you in pairs that you may find comfort in them"
+              </p>
+              <p class="text-[7.5px] sm:text-[8px] font-sans-ui tracking-widest text-[#8c6d28] uppercase font-bold">
+                — QUR'AN 30:21 —
+              </p>
+              <div class="w-14 h-[1px] bg-[#c5a059] mx-auto my-0.5"></div>
+            </div>
+
+            <!-- Bride, Groom & Parents Section -->
+            <div class="w-full space-y-1.5 sm:space-y-2 my-auto z-10">
+              <p class="text-[8.5px] sm:text-[9px] font-sans-ui tracking-[0.2em] text-[#8c6d28] uppercase font-bold">
+                TOGETHER WITH THEIR FAMILIES
+              </p>
+              <p class="text-[8.5px] sm:text-[9px] font-sans-ui tracking-[0.1em] text-[#333] uppercase font-medium">
+                WE REQUEST THE HONOUR OF YOUR PRESENCE AT THE WALIMA OF
+              </p>
+
+              <!-- Couple Names Box -->
+              <div class="py-0.5">
+                <!-- Groom Name & Parents -->
+                <h1 class="font-script text-3xl sm:text-4xl text-[#142019] font-bold leading-tight gold-shimmer-text">
+                  Amzad Rehman
+                </h1>
+                <p class="text-[10px] sm:text-[11px] font-sans-ui text-[#444] font-semibold tracking-wide">
+                  son of Mr. & Mrs. Zahidur Rahman
+                </p>
+
+                <!-- weds Symbol -->
+                <div class="font-script text-xl sm:text-2xl text-[#8c6d28] my-0.5 font-bold">
+                  weds
+                </div>
+
+                <!-- Bride Name & Parents -->
+                <h1 class="font-script text-3xl sm:text-4xl text-[#142019] font-bold leading-tight gold-shimmer-text">
+                  Romana Khan
+                </h1>
+                <p class="text-[10px] sm:text-[11px] font-sans-ui text-[#444] font-semibold tracking-wide">
+                  daughter of Mr. & Mrs. Riyasat Ali Khan
+                </p>
+              </div>
+
+              <!-- Date & Time Box -->
+              <div class="bg-white rounded-xl p-2 sm:p-2.5 border border-[#c5a059] shadow-sm max-w-[95%] mx-auto space-y-0.5">
+                <p class="text-[8.5px] sm:text-[9px] font-sans-ui tracking-widest text-[#8c6d28] uppercase font-bold">EVENT DATE & TIME</p>
+                <div class="flex items-center justify-center gap-2 sm:gap-3">
+                  <span class="text-[11px] sm:text-xs font-sans-ui font-bold text-[#142019]">SUNDAY</span>
+                  <span class="text-[#8c6d28]">•</span>
+                  <span class="text-[11px] sm:text-xs font-sans-ui font-bold text-[#142019]">25<sup class="text-[7.5px]">TH</sup> OCTOBER 2026</span>
+                </div>
+                <p class="text-[11px] sm:text-xs font-playfair font-bold text-[#8c6d28]">Dinner Time: 8:00 PM</p>
+              </div>
+            </div>
+
+            <!-- Page Footer Controls -->
+            <div class="w-full flex justify-between items-center border-t border-[#c5a059]/40 pt-1.5 z-10">
+              <button onclick="flipPrev()" class="text-xs font-sans-ui font-bold text-[#8c6d28] hover:text-[#594519] flex items-center gap-1 px-3 py-1 bg-[#f8f5ee] border border-[#c5a059]/50 rounded-full shadow-xs transition">
+                ◄ Prev
+              </button>
+              <button onclick="flipNext()" class="text-xs font-sans-ui font-bold text-white bg-[#8c6d28] hover:bg-[#6e541d] px-3.5 py-1 rounded-full shadow transition flex items-center gap-1">
+                Next ►
+              </button>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- ==================== PAGE 1 (COVER CARD - MATCHING DESIGN) ==================== -->
+        <div id="p1" class="flip-card-page z-30">
+          <div class="w-full h-full bg-white-luxury border-[4px] sm:border-[5px] border-[#c5a059] rounded-2xl p-3 sm:p-4 flex flex-col justify-between items-center text-center card-shadow relative overflow-hidden select-none">
+            
+            <!-- Outer Border Line -->
+            <div class="absolute inset-1.5 border border-[#c5a059]/50 rounded-xl pointer-events-none"></div>
+
+            <!-- Pointed Islamic Arch Inner Background -->
+            <div class="absolute top-2 left-2 right-2 bottom-2 islamic-arch-inner border-2 border-[#c5a059]/60 pointer-events-none bg-gradient-to-b from-white via-[#faf8f4] to-[#f5f1e8] shadow-inner"></div>
+
+            <!-- Floral Corner Decoration - Top Left -->
+            <div class="absolute -top-1 -left-1 w-20 h-20 sm:w-24 sm:h-24 pointer-events-none z-10 opacity-95">
+              <svg viewBox="0 0 100 100" class="w-full h-full">
+                <path d="M 0 0 C 30 10, 45 30, 40 60 C 25 50, 10 30, 0 0 Z" fill="#2d402b" opacity="0.8"/>
+                <path d="M 0 0 C 15 25, 30 40, 60 40 C 45 25, 25 15, 0 0 Z" fill="#3b5238" opacity="0.75"/>
+                <circle cx="22" cy="22" r="14" fill="#ffffff" filter="drop-shadow(0 2px 4px rgba(0,0,0,0.15))"/>
+                <circle cx="20" cy="20" r="10" fill="#ffffff"/>
+                <circle cx="22" cy="22" r="6" fill="#f8f4ec"/>
+                <circle cx="36" cy="14" r="9" fill="#ffffff"/>
+                <circle cx="14" cy="36" r="9" fill="#ffffff"/>
+              </svg>
+            </div>
+
+            <!-- Hanging Brass Islamic Lanterns (Top Center) -->
+            <div class="absolute top-0 left-0 right-0 flex justify-center items-start gap-4 sm:gap-5 pointer-events-none z-20">
+              <!-- Left Small Lantern -->
+              <div class="animate-swing-delay flex flex-col items-center -mt-1">
+                <div class="w-[1px] h-8 sm:h-9 bg-gradient-to-b from-[#8c6d28] via-[#d4af37] to-[#8c6d28]"></div>
+                <div class="w-3.5 h-6 sm:w-4 sm:h-7 relative">
+                  <svg viewBox="0 0 24 40" class="w-full h-full text-[#8c6d28] drop-shadow-md">
+                    <path d="M12 0 L16 6 L16 30 L12 36 L8 30 L8 6 Z" fill="#b38728" stroke="#594519" stroke-width="1"/>
+                    <circle cx="12" cy="18" r="4" fill="#ffeb99" class="animate-glow"/>
+                  </svg>
+                </div>
+              </div>
+
+              <!-- Center Main Large Lantern -->
+              <div class="animate-swing flex flex-col items-center -mt-1">
+                <div class="w-[1.5px] h-12 sm:h-14 bg-gradient-to-b from-[#8c6d28] via-[#fcf6ba] to-[#8c6d28]"></div>
+                <div class="w-4.5 h-8 sm:w-5 sm:h-9 relative">
+                  <svg viewBox="0 0 24 40" class="w-full h-full text-[#8c6d28] drop-shadow-lg">
+                    <path d="M12 0 L18 8 L18 32 L12 40 L6 32 L6 8 Z" fill="#d4af37" stroke="#3d321b" stroke-width="1"/>
+                    <circle cx="12" cy="20" r="5" fill="#fff5cc" class="animate-glow"/>
+                  </svg>
+                </div>
+              </div>
+
+              <!-- Right Small Lantern -->
+              <div class="animate-swing-delay flex flex-col items-center -mt-1">
+                <div class="w-[1px] h-10 sm:h-11 bg-gradient-to-b from-[#8c6d28] via-[#d4af37] to-[#8c6d28]"></div>
+                <div class="w-3 h-5.5 sm:w-3.5 sm:h-6 relative">
+                  <svg viewBox="0 0 24 40" class="w-full h-full text-[#8c6d28] drop-shadow-md">
+                    <path d="M12 0 L16 6 L16 30 L12 36 L8 30 L8 6 Z" fill="#aa771c" stroke="#594519" stroke-width="1"/>
+                    <circle cx="12" cy="18" r="3.5" fill="#ffeb99" class="animate-glow"/>
+                  </svg>
+                </div>
+              </div>
+            </div>
+
+            <!-- Bottom Right Floral Accent -->
+            <div class="absolute -bottom-2 -right-2 w-24 h-24 sm:w-28 sm:h-28 pointer-events-none z-10 opacity-95">
+              <svg viewBox="0 0 100 100" class="w-full h-full">
+                <path d="M 100 100 C 70 90, 55 70, 60 40 C 75 50, 90 70, 100 100 Z" fill="#2d402b" opacity="0.85"/>
+                <circle cx="76" cy="76" r="15" fill="#ffffff" filter="drop-shadow(0 2px 4px rgba(0,0,0,0.15))"/>
+                <circle cx="78" cy="78" r="10" fill="#ffffff"/>
+                <circle cx="76" cy="76" r="6" fill="#f8f4ec"/>
+                <circle cx="62" cy="84" r="9" fill="#ffffff"/>
+                <circle cx="86" cy="62" r="9" fill="#ffffff"/>
+              </svg>
+            </div>
+
+            <!-- MAIN COVER CONTENT -->
+            <div class="w-full flex flex-col justify-between items-center h-full pt-9 sm:pt-10 pb-1.5 z-20">
+
+              <!-- Top Banner (Double Gold Horizontal Lines) -->
+              <div class="w-full space-y-1">
+                <div class="border-y-2 border-[#c5a059] py-0.5 sm:py-1 px-3 max-w-[88%] mx-auto">
+                  <span class="text-[10.5px] sm:text-xs font-sans-ui tracking-[0.25em] sm:tracking-[0.28em] text-[#8c6d28] uppercase font-bold block text-center">
+                    WEDDING INVITATION
+                  </span>
+                </div>
+              </div>
+
+              <!-- Main Title & Couple Initials Monogram Emblem -->
+              <div class="w-full space-y-1.5 sm:space-y-2 my-auto">
+                
+                <!-- Gold Royal Monogram Seal (Matching Image) -->
+                <div class="mx-auto w-20 h-20 sm:w-24 sm:h-24 rounded-full border-2 border-[#c5a059] p-1 flex items-center justify-center bg-white/95 shadow-xl hover:scale-105 transition-transform">
+                  <div class="w-full h-full rounded-full border border-dashed border-[#8c6d28] flex flex-col items-center justify-center leading-none">
+                    <span class="font-script text-2xl sm:text-3xl text-[#8c6d28] -translate-x-1.5 font-bold">A</span>
+                    <span class="text-[9px] sm:text-[10px] text-[#c5a059] my-[-2px]">❖</span>
+                    <span class="font-script text-2xl sm:text-3xl text-[#8c6d28] translate-x-1.5 font-bold">R</span>
+                  </div>
+                </div>
+
+                <!-- Couple Names Calligraphy (Matching Image) -->
+                <div class="space-y-0.5 pt-0.5">
+                  <h1 class="font-script text-3xl sm:text-4xl text-[#142019] font-bold leading-tight gold-shimmer-text">
+                    Amzad Rehman
+                  </h1>
+                  
+                  <div class="text-[#c5a059] font-body-serif italic text-base flex items-center justify-center gap-3">
+                    <span class="w-7 sm:w-8 h-[1px] bg-[#c5a059]"></span>
+                    <span class="font-script text-lg sm:text-xl text-[#8c6d28]">weds</span>
+                    <span class="w-7 sm:w-8 h-[1px] bg-[#c5a059]"></span>
+                  </div>
+
+                  <h1 class="font-script text-3xl sm:text-4xl text-[#142019] font-bold leading-tight gold-shimmer-text">
+                    Romana Khan
+                  </h1>
+                </div>
+
+                <!-- EDITABLE GUEST NAME & SHARABLE BUTTONS -->
+                <div class="pt-1.5 pb-1 w-full max-w-[94%] sm:max-w-[92%] mx-auto bg-white/90 p-2 sm:p-2.5 rounded-xl border border-[#c5a059]/40 shadow-xs">
+                  <label for="guestNameInput" class="text-[8.5px] sm:text-[9.5px] font-sans-ui text-[#8c6d28] uppercase font-bold tracking-wider block mb-0.5">
+                    INVITATION FOR RESPECTED GUEST:
+                  </label>
+                  
+                  <div class="space-y-1.5">
+                    <input 
+                      type="text" 
+                      id="guestNameInput" 
+                      value="Respected Guest & Family" 
+                      placeholder="Type Guest Name..." 
+                      class="w-full text-center font-script text-xl sm:text-2xl text-[#142019] font-bold bg-white border-b-2 border-[#c5a059] px-2 py-0.5 rounded shadow-inner focus:outline-none focus:ring-2 focus:ring-[#c5a059]/50 transition"
+                    />
+
+                    <!-- Sharable Action Buttons -->
+                    <div class="grid grid-cols-2 gap-1.5 pt-0.5">
+                      <button onclick="shareWhatsApp()" class="w-full bg-[#25D366] hover:bg-[#1ebd59] text-white text-[9.5px] sm:text-[10.5px] font-sans-ui font-semibold py-1.5 px-1 rounded-lg flex items-center justify-center gap-1 shadow transition">
+                        <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
+                        Share WhatsApp
+                      </button>
+
+                      <button onclick="copyPersonalLink()" class="w-full bg-[#8c6d28] hover:bg-[#6e541d] text-white text-[9.5px] sm:text-[10.5px] font-sans-ui font-semibold py-1.5 px-1 rounded-lg flex items-center justify-center gap-1 shadow transition">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/></svg>
+                        Copy Link 🔗
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+              <!-- Next Button Footer -->
+              <div class="w-full flex justify-end items-center border-t border-[#c5a059]/40 pt-1.5 z-10">
+                <button onclick="flipNext()" class="text-xs font-sans-ui font-bold text-white bg-[#8c6d28] hover:bg-[#6e541d] px-3.5 py-1 rounded-full shadow transition flex items-center gap-1">
+                  Next ►
+                </button>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- Notification Toast -->
+  <div id="toast" class="fixed top-16 left-1/2 transform -translate-x-1/2 bg-[#142019] text-[#fcf6ba] border border-[#c5a059] px-4 py-2 rounded-full text-xs font-sans-ui shadow-2xl transition-opacity duration-300 opacity-0 pointer-events-none z-50 flex items-center gap-2">
+    <span id="toastMsg">Audio started</span>
+  </div>
+
+  <script>
+    // 3D Flip Book Engine (3 Pages)
+    let currentPage = 1;
+    const totalPages = 3;
+    const p1 = document.getElementById('p1');
+    const p2 = document.getElementById('p2');
+    const p3 = document.getElementById('p3');
+
+    function flipNext() {
+      if (currentPage < totalPages) {
+        if (currentPage === 1) {
+          p1.classList.add('flipped');
+        } else if (currentPage === 2) {
+          p2.classList.add('flipped');
+        }
+        currentPage++;
+      }
+    }
+
+    function flipPrev() {
+      if (currentPage > 1) {
+        if (currentPage === 3) {
+          p2.classList.remove('flipped');
+        } else if (currentPage === 2) {
+          p1.classList.remove('flipped');
+        }
+        currentPage--;
+      }
+    }
+
+    // Touch Swipe Support
+    let touchStartX = 0;
+    let touchEndX = 0;
+    const stage = document.querySelector('.stage-perspective');
+
+    stage.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+
+    stage.addEventListener('touchend', (e) => {
+      touchEndX = e.changedTouches[0].screenX;
+      handleSwipe();
+    }, { passive: true });
+
+    function handleSwipe() {
+      const diff = touchStartX - touchEndX;
+      if (diff > 40) {
+        flipNext();
+      } else if (diff < -40) {
+        flipPrev();
+      }
+    }
+
+    // Read URL Param "to" for Guest Name
+    window.addEventListener('DOMContentLoaded', () => {
+      const params = new URLSearchParams(window.location.search);
+      const toName = params.get('to');
+      if (toName) {
+        document.getElementById('guestNameInput').value = decodeURIComponent(toName);
+      }
+    });
+
+    function getSharableUrl() {
+      const guestName = document.getElementById('guestNameInput').value.trim();
+      const baseUrl = window.location.origin + window.location.pathname;
+      if (guestName) {
+        return `${baseUrl}?to=${encodeURIComponent(guestName)}`;
+      }
+      return baseUrl;
+    }
+
+    function copyPersonalLink() {
+      const sharableUrl = getSharableUrl();
+      navigator.clipboard.writeText(sharableUrl).then(() => {
+        showToast("Personalized invitation link copied! 🔗");
+      }).catch(() => {
+        showToast("Could not copy link automatically");
+      });
+    }
+
+    function shareWhatsApp() {
+      const guestName = document.getElementById('guestNameInput').value.trim() || 'Respected Guest';
+      const sharableUrl = getSharableUrl();
+      const text = encodeURIComponent(`✨ *Dawat-e-Walima Invitation* ✨\n\nDear *${guestName}*,\n\nYou are cordially invited to the Walima of *Amzad Rehman* & *Romana Khan*\n\n📅 Date: Sunday, 25th October 2026\n⏰ Dinner Time: 8:00 PM\n📍 Venue: Kaka Palace Farm House, Nistoli Road, Ghaziabad\n\nOpen your personalized card here:\n` + sharableUrl);
+      window.open(`https://api.whatsapp.com/send?text=${text}`, '_blank');
+    }
+
+    // Golden Sparkles Particle Canvas
+    const canvas = document.getElementById('particleCanvas');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    class Particle {
+      constructor() {
+        this.reset();
+      }
+      reset() {
+        this.x = Math.random() * canvas.width;
+        this.y = canvas.height + Math.random() * 20;
+        this.size = Math.random() * 2.2 + 0.8;
+        this.speedY = Math.random() * 0.7 + 0.3;
+        this.speedX = (Math.random() - 0.5) * 0.4;
+        this.opacity = Math.random() * 0.6 + 0.2;
+        this.fade = Math.random() * 0.005 + 0.002;
+      }
+      update() {
+        this.y -= this.speedY;
+        this.x += this.speedX;
+        this.opacity -= this.fade;
+        if (this.opacity <= 0 || this.y < 0) {
+          this.reset();
+        }
+      }
+      draw() {
+        ctx.fillStyle = `rgba(212, 175, 55, ${this.opacity})`;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+
+    for (let i = 0; i < 35; i++) {
+      particles.push(new Particle());
+    }
+
+    function animateParticles() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles.forEach(p => {
+        p.update();
+        p.draw();
+      });
+      requestAnimationFrame(animateParticles);
+    }
+    animateParticles();
+
+    // Ambient Wedding Audio Synthesizer
+    let isPlayingAudio = false;
+    let audioContext = null;
+    let audioOscillator = null;
+
+    function toggleAudio() {
+      const musicBtn = document.getElementById('bgMusicBtn');
+      if (!isPlayingAudio) {
+        try {
+          if (!audioContext) {
+            audioContext = new (window.AudioContext || window.webkitAudioContext)();
+          }
+          if (audioContext.state === 'suspended') {
+            audioContext.resume();
+          }
+
+          const notes = [261.63, 329.63, 392.00, 440.00, 523.25, 659.25];
+          let noteIndex = 0;
+
+          audioOscillator = setInterval(() => {
+            if (!isPlayingAudio) return;
+            const osc = audioContext.createOscillator();
+            const gain = audioContext.createGain();
+            
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(notes[noteIndex % notes.length], audioContext.currentTime);
+            
+            gain.gain.setValueAtTime(0.06, audioContext.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 2.5);
+            
+            osc.connect(gain);
+            gain.connect(audioContext.destination);
+            
+            osc.start();
+            osc.stop(audioContext.currentTime + 2.5);
+            
+            noteIndex = Math.floor(Math.random() * notes.length);
+          }, 850);
+
+          isPlayingAudio = true;
+          musicBtn.classList.add('animate-bounce');
+          showToast("Playing ambient wedding melody 🎵");
+        } catch(e) {
+          showToast("Audio playback not supported");
+        }
+      } else {
+        if (audioOscillator) clearInterval(audioOscillator);
+        isPlayingAudio = false;
+        musicBtn.classList.remove('animate-bounce');
+        showToast("Music paused");
+      }
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      const toastMsg = document.getElementById('toastMsg');
+      toastMsg.innerText = msg;
+      toast.classList.remove('opacity-0', 'pointer-events-none');
+      toast.classList.add('opacity-100');
+      
+      setTimeout(() => {
+        toast.classList.remove('opacity-100');
+        toast.classList.add('opacity-0', 'pointer-events-none');
+      }, 3000);
+    }
+
+    function addToCalendar() {
+      const title = encodeURIComponent("Dawat-e-Walima: Amzad Rehman & Romana Khan");
+      const details = encodeURIComponent("Dawat-e-Walima Celebration\nVenue: Kaka Palace Farm House, Nistoli Road, Ghaziabad, UP 201102\nDinner Time: 8:00 PM");
+      const location = encodeURIComponent("Kaka Palace Farm House, Nistoli Road, Ghaziabad, UP 201102");
+      const gcalUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=20261025T143000Z/20261025T183000Z&details=${details}&location=${location}`;
+      window.open(gcalUrl, '_blank');
+    }
+  </script>
+</body>
+</html>

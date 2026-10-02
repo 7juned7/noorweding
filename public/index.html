@@ -142,14 +142,12 @@
   <!-- Floating Golden Sparkle Particles Canvas -->
   <canvas id="particleCanvas"></canvas>
 
-  <!-- Top Navigation Bar -->
-  <header class="w-full max-w-md bg-[#142019]/90 backdrop-blur-md text-[#fcf6ba] py-3 px-4 flex items-center justify-end border-b border-[#c5a059]/40 shadow-xl z-40">
-    <!-- Music Toggle Button -->
-    <button id="bgMusicBtn" onclick="toggleAudio()" class="flex items-center gap-1.5 bg-[#0b120e] text-[#e6ca65] border border-[#c5a059]/50 px-3 py-1 rounded-full text-xs font-sans-ui hover:border-[#c5a059] transition shadow">
-      <svg id="musicIcon" class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12 0c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"></path></svg>
-      <span id="musicText">Music</span>
-    </button>
-  </header>
+  <!-- Floating Circular Music Button (Top Right) -->
+  <button id="bgMusicBtn" onclick="toggleAudio()" class="fixed top-4 right-4 z-50 w-11 h-11 rounded-full bg-[#142019] text-[#e6ca65] border-2 border-[#c5a059] shadow-lg flex items-center justify-center hover:scale-110 active:scale-95 transition-all">
+    <svg id="musicIcon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12 0c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"/>
+    </svg>
+  </button>
 
   <!-- Main 3D Flip Stage -->
   <main class="w-full max-w-md my-auto p-4 flex-1 flex flex-col justify-center items-center z-10">
@@ -374,13 +372,71 @@
         <div id="p1" class="flip-card-page z-40">
           <div class="w-full h-full bg-royal-pattern border-4 border-[#c5a059] rounded-2xl p-6 flex flex-col justify-between items-center text-center card-shadow relative overflow-hidden">
             
-            <!-- Top Arch & Floating Lantern -->
-            <div class="w-full flex justify-between items-start">
+            <!-- Floral Corner Decoration - Top Left -->
+            <div class="absolute -top-1 -left-1 w-24 h-24 pointer-events-none z-10 opacity-90">
+              <svg viewBox="0 0 100 100" class="w-full h-full">
+                <path d="M 0 0 C 30 10, 45 30, 40 60 C 25 50, 10 30, 0 0 Z" fill="#2d402b" opacity="0.8"/>
+                <path d="M 0 0 C 15 25, 30 40, 60 40 C 45 25, 25 15, 0 0 Z" fill="#3b5238" opacity="0.75"/>
+                <circle cx="22" cy="22" r="14" fill="#ffffff" filter="drop-shadow(0 2px 3px rgba(0,0,0,0.15))"/>
+                <circle cx="20" cy="20" r="10" fill="#fcfaf2"/>
+                <circle cx="22" cy="22" r="6" fill="#f4ece1"/>
+                <circle cx="36" cy="14" r="9" fill="#ffffff"/>
+                <circle cx="14" cy="36" r="9" fill="#f8f4eb"/>
+              </svg>
+            </div>
+
+            <!-- Hanging Brass Islamic Lanterns (Top Center) -->
+            <div class="absolute top-0 left-0 right-0 flex justify-center items-start gap-5 pointer-events-none z-20">
+              <!-- Left Small Lantern -->
+              <div class="animate-swing-delay flex flex-col items-center -mt-1">
+                <div class="w-[1px] h-9 bg-gradient-to-b from-[#8c6d28] via-[#d4af37] to-[#8c6d28]"></div>
+                <div class="w-4 h-7 relative">
+                  <svg viewBox="0 0 24 40" class="w-full h-full text-[#8c6d28] drop-shadow-md">
+                    <path d="M12 0 L16 6 L16 30 L12 36 L8 30 L8 6 Z" fill="#b38728" stroke="#594519" stroke-width="1"/>
+                    <circle cx="12" cy="18" r="4" fill="#ffeb99" class="animate-glow"/>
+                  </svg>
+                </div>
+              </div>
+
+              <!-- Center Main Large Lantern -->
+              <div class="animate-swing flex flex-col items-center -mt-1">
+                <div class="w-[1.5px] h-14 bg-gradient-to-b from-[#8c6d28] via-[#fcf6ba] to-[#8c6d28]"></div>
+                <div class="w-5 h-9 relative">
+                  <svg viewBox="0 0 24 40" class="w-full h-full text-[#8c6d28] drop-shadow-lg">
+                    <path d="M12 0 L18 8 L18 32 L12 40 L6 32 L6 8 Z" fill="#d4af37" stroke="#3d321b" stroke-width="1"/>
+                    <circle cx="12" cy="20" r="5" fill="#fff5cc" class="animate-glow"/>
+                  </svg>
+                </div>
+              </div>
+
+              <!-- Right Small Lantern -->
+              <div class="animate-swing-delay flex flex-col items-center -mt-1">
+                <div class="w-[1px] h-11 bg-gradient-to-b from-[#8c6d28] via-[#d4af37] to-[#8c6d28]"></div>
+                <div class="w-3.5 h-6 relative">
+                  <svg viewBox="0 0 24 40" class="w-full h-full text-[#8c6d28] drop-shadow-md">
+                    <path d="M12 0 L16 6 L16 30 L12 36 L8 30 L8 6 Z" fill="#aa771c" stroke="#594519" stroke-width="1"/>
+                    <circle cx="12" cy="18" r="3.5" fill="#ffeb99" class="animate-glow"/>
+                  </svg>
+                </div>
+              </div>
+            </div>
+
+            <!-- Bottom Right Floral Accent -->
+            <div class="absolute -bottom-2 -right-2 w-28 h-28 pointer-events-none z-10 opacity-90">
+              <svg viewBox="0 0 100 100" class="w-full h-full">
+                <path d="M 100 100 C 70 90, 55 70, 60 40 C 75 50, 90 70, 100 100 Z" fill="#2d402b" opacity="0.85"/>
+                <circle cx="76" cy="76" r="15" fill="#ffffff" filter="drop-shadow(0 2px 4px rgba(0,0,0,0.15))"/>
+                <circle cx="78" cy="78" r="10" fill="#fdfbf7"/>
+                <circle cx="76" cy="76" r="6" fill="#f1e6d5"/>
+                <circle cx="62" cy="84" r="9" fill="#ffffff"/>
+                <circle cx="86" cy="62" r="9" fill="#f7f3eb"/>
+              </svg>
+            </div>
+
+            <!-- Top Arch -->
+            <div class="w-full flex justify-between items-start pt-2">
               <div class="w-12 h-12 border-t-2 border-l-2 border-[#c5a059] relative">
                 <span class="absolute -top-1 -left-1 text-sm text-[#c5a059]">❖</span>
-              </div>
-              <div class="w-10 h-14 text-[#c5a059] animate-swing">
-                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L10 5H14L12 2ZM11 6V11H13V6H11ZM8 12C8 9.79 9.79 8 12 8C14.21 8 16 9.79 16 12V18H8V12ZM12 22C10.9 22 10 21.1 10 20H14C14 21.1 13.1 22 12 22Z"/></svg>
               </div>
               <div class="w-12 h-12 border-t-2 border-r-2 border-[#c5a059] relative text-right">
                 <span class="absolute -top-1 -right-1 text-sm text-[#c5a059]">❖</span>
